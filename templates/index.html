@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budatín Castle</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1 id="castle-name">Loading...</h1>
+  <p>Built in: <span id="castle-date"></span></p>
+
+  <script>
+    fetch("/api/castle")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("castle-name").textContent = data.label || "Budatín Castle";
+        document.getElementById("castle-date").textContent = data.built || "Unknown";
+      });
+  </script>
+</body>
+</html>

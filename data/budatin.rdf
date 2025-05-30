@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:dbo="http://dbpedia.org/ontology/"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:ex="http://example.org/budatin#">
+
+  <rdf:Description rdf:about="http://example.org/budatin#BudatinCastle">
+    <rdf:type rdf:resource="http://dbpedia.org/ontology/Castle"/>
+    <rdfs:label xml:lang="en">Budatín Castle</rdfs:label>
+    <dbo:location rdf:resource="http://dbpedia.org/resource/Žilina"/>
+    <dbo:country rdf:resource="http://dbpedia.org/resource/Slovakia"/>
+    <dbo:built rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1250-01-01</dbo:built>
+    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Budat%C3%ADn_Castle"/>
+  </rdf:Description>
+
+</rdf:RDF>
