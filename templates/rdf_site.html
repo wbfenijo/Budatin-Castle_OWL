@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budatín Castle</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <nav>
+    <a href="{{ url_for('index') }}">Pictures</a>
+    <a href="">RDF</a>
+    <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
+    <a href="{{ url_for('rdf_graph') }}">Graph</a>
+  </nav>
+  <h1 id="castle-name">Loading...</h1>
+  <p>Built in: <span id="castle-date"></span></p>
+  
+<footer>
+  <p>© 2025 Budatin Castle. All rights reserved.</p>
+  <p>Website project by Adam Blazek</p>
+  <p><small>This is a student project and not an official site.</small></p>
+</footer>
+</body>
+</html>
