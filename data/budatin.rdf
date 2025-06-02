@@ -105,7 +105,6 @@
     <hasCurrentState xml:lang="en">Renovated and open to public</hasCurrentState>
 </rdf:Description>
 
-<!-- Price instances -->
 <Price rdf:about="#PriceCastleTourAdult">
     <hasTourType rdf:resource="#CastleTour"/>
     <hasTicketType rdf:resource="#AdultTicket"/>
