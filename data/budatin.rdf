@@ -1,18 +1,133 @@
 <?xml version="1.0"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-         xmlns:dbo="http://dbpedia.org/ontology/"
-         xmlns:owl="http://www.w3.org/2002/07/owl#"
-         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
-         xmlns:ex="http://example.org/budatin#">
+<!DOCTYPE rdf:RDF [
+<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+<rdf:RDF 
+    xmlns="http://example.org/budatin#"
+    xml:base="http://example.org/budatin"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
 
-  <rdf:Description rdf:about="http://example.org/budatin#BudatinCastle">
-    <rdf:type rdf:resource="http://dbpedia.org/ontology/Castle"/>
-    <rdfs:label xml:lang="en">Budatín Castle</rdfs:label>
-    <dbo:location rdf:resource="http://dbpedia.org/resource/Žilina"/>
-    <dbo:country rdf:resource="http://dbpedia.org/resource/Slovakia"/>
-    <dbo:built rdf:datatype="http://www.w3.org/2001/XMLSchema#date">1250-01-01</dbo:built>
-    <owl:sameAs rdf:resource="http://dbpedia.org/resource/Budat%C3%ADn_Castle"/>
-  </rdf:Description>
+<owl:Ontology rdf:about="http://example.org/budatin"/>
+
+<owl:Class rdf:ID="Castle"/>
+
+<owl:Class rdf:ID="BudatinCastle">
+    <rdfs:subClassOf rdf:resource="#Castle"/>
+</owl:Class>
+
+<owl:DatatypeProperty rdf:ID="hasName">
+    <rdfs:domain rdf:resource="#Castle"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasYearOfBuild">
+    <rdfs:domain rdf:resource="#Castle"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasDescription">
+    <rdfs:domain rdf:resource="#Castle"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID="hasCurrentState">
+    <rdfs:domain rdf:resource="#Castle"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+</owl:DatatypeProperty>
+
+<owl:Class rdf:ID="TourType">
+    <owl:unionOf rdf:parseType="Collection">
+        <owl:Class rdf:about="#CastleTour"/>
+        <owl:Class rdf:about="#WireworkExhibition"/>
+    </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="CastleTour"/>
+<owl:Class rdf:ID="WireworkExhibition"/>
+
+<owl:Class rdf:ID="TicketType">
+    <owl:unionOf rdf:parseType="Collection">
+        <owl:Class rdf:about="#AdultTicket"/>
+        <owl:Class rdf:about="#ChildTicket"/>
+    </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="AdultTicket"/>
+<owl:Class rdf:ID="ChildTicket"/>
+
+<owl:Class rdf:ID="Price"/>
+<owl:DatatypeProperty rdf:ID="amount">
+    <rdfs:domain rdf:resource="#Price"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+</owl:DatatypeProperty>
+
+<owl:ObjectProperty rdf:ID="hasTourType">
+    <rdfs:domain rdf:resource="#Price"/>
+    <rdfs:range rdf:resource="#TourType"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="hasTicketType">
+    <rdfs:domain rdf:resource="#Price"/>
+    <rdfs:range rdf:resource="#TicketType"/>
+</owl:ObjectProperty>
+
+<owl:Class rdf:ID="TransportOption">
+    <owl:unionOf rdf:parseType="Collection">
+        <owl:Class rdf:about="#Car"/>
+        <owl:Class rdf:about="#Bus"/>
+    </owl:unionOf>
+</owl:Class>
+
+<owl:Class rdf:ID="Car"/>
+<owl:Class rdf:ID="Bus"/>
+
+<owl:ObjectProperty rdf:ID="hasTransport">
+    <rdfs:domain rdf:resource="#BudatinCastle"/>
+    <rdfs:range rdf:resource="#TransportOption"/>
+</owl:ObjectProperty>
+
+<owl:ObjectProperty rdf:ID="hasRoute">
+    <rdfs:domain rdf:resource="#BudatinCastle"/>
+    <rdfs:range rdf:resource="#TourType"/>
+</owl:ObjectProperty>
+
+<rdf:Description rdf:about="#BudatinCastle">
+    <hasName xml:lang="en">Budatin Castle</hasName>
+    <hasName xml:lang="sk">Budatínsky hrad</hasName>
+    <hasYearOfBuild rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">1250</hasYearOfBuild>
+    <hasDescription xml:lang="en">A historical castle located in Žilina, Slovakia.</hasDescription>
+    <hasCurrentState xml:lang="en">Renovated and open to public</hasCurrentState>
+</rdf:Description>
+
+<!-- Price instances -->
+<Price rdf:about="#PriceCastleTourAdult">
+    <hasTourType rdf:resource="#CastleTour"/>
+    <hasTicketType rdf:resource="#AdultTicket"/>
+    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">10.00</amount>
+</Price>
+
+<Price rdf:about="#PriceCastleTourChild">
+    <hasTourType rdf:resource="#CastleTour"/>
+    <hasTicketType rdf:resource="#ChildTicket"/>
+    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5.00</amount>
+</Price>
+
+<Price rdf:about="#PriceWireworkAdult">
+    <hasTourType rdf:resource="#WireworkExhibition"/>
+    <hasTicketType rdf:resource="#AdultTicket"/>
+    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">8.00</amount>
+</Price>
+
+<Price rdf:about="#PriceWireworkChild">
+    <hasTourType rdf:resource="#WireworkExhibition"/>
+    <hasTicketType rdf:resource="#ChildTicket"/>
+    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.00</amount>
+</Price>
 
 </rdf:RDF>

@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template 
+from flask import Flask, jsonify, render_template, url_for 
 from rdflib import Graph 
 import os
 
@@ -7,6 +7,13 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return render_template("index.html")
+
+@app.route('/')
+def slideshow():
+    image_folder = os.path.join('static', 'images')
+    images = os.listdir(image_folder)
+    image_urls = [url_for('static', filename=f'images/{img}') for img in images if img[0] == 'b']
+    return render_template('index.html', images=image_urls)
 
 @app.route("/rdf_site")
 def rdf_site():

@@ -4,6 +4,24 @@
   <meta charset="UTF-8">
   <title>Budatín Castle</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    #slideshow {
+        width: 600px;
+        height: 400px;
+        margin: auto;
+        overflow: hidden;
+        position: relative;
+    }
+    #slideshow img {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: none;
+    }
+    #slideshow img.active {
+        display: block;
+    }
+  </style>
 </head>
 <body>
 
@@ -13,17 +31,25 @@
     <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
     <a href="{{ url_for('rdf_graph') }}">Graph</a>
   </nav>
-  <h1 id="castle-name">Loading...</h1>
-  <p>Built in: <span id="castle-date"></span></p>
 
-  <script>
-    fetch("/api/castle")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("castle-name").textContent = data.label || "Budatín Castle";
-        document.getElementById("castle-date").textContent = data.built || "Unknown";
-      });
-  </script>
+  <div id="slideshow">
+        {% for img in images %}
+            <img src="{{ img }}" class="{% if loop.first %}active{% endif %}">
+        {% endfor %}
+    </div>
+
+    <script>
+        let images = document.querySelectorAll('#slideshow img');
+        let current = 0;
+
+        function showNextImage() {
+            images[current].classList.remove('active');
+            current = (current + 1) % images.length;
+            images[current].classList.add('active');
+        }
+
+        setInterval(showNextImage, 3000);
+    </script>
 
 <footer>
   <p>© 2025 Budatin Castle. All rights reserved.</p>
