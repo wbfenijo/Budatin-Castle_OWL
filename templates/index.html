@@ -38,17 +38,22 @@
       <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
       <a href="{{ url_for('rdf_graph') }}">Graph</a>
     </nav>
-
-    <div id="slideshow">
-      {% for img in images %}
-      <img
-        src="{{ img }}"
-        class="{% if loop.first %}active{% endif %}"
-        alt="Budatin Castle"
-      />
-      {% endfor %}
-    </div>
-
+    <main>
+      <div id="slideshow">
+        {% for img in images %}
+        <img
+          src="{{ img }}"
+          class="{% if loop.first %}active{% endif %}"
+          alt="Budatin Castle"
+        />
+        {% endfor %}
+      </div>
+    </main>
+    <footer>
+      <p>© 2025 Budatin Castle. All rights reserved.</p>
+      <p>Website project by Adam Blazek</p>
+      <p><small>This is a student project and not an official site.</small></p>
+    </footer>
     <script>
       let images = document.querySelectorAll("#slideshow img");
       let current = 0;
@@ -75,11 +80,5 @@
         resetInterval();
       });
     </script>
-
-    <footer>
-      <p>© 2025 Budatin Castle. All rights reserved.</p>
-      <p>Website project by Adam Blazek</p>
-      <p><small>This is a student project and not an official site.</small></p>
-    </footer>
   </body>
 </html>

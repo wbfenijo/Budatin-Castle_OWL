@@ -15,27 +15,27 @@
       <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
       <a href="{{ url_for('rdf_graph') }}">Graph</a>
     </nav>
-    <h1 id="castle-name">Loading...</h1>
-    <p>Built in: <span id="castle-date"></span></p>
+    <main>
+      <h1 id="castle-name">Loading...</h1>
+      <p>Built in: <span id="castle-date"></span></p>
+    </main>
+    <footer>
+      <p>© 2025 Budatin Castle. All rights reserved.</p>
+      <p>Website project by Adam Blazek</p>
+      <p><small>This is a student project and not an official site.</small></p>
+    </footer>
     <script>
       fetch("/api/basic")
         .then((res) => res.json())
         .then((data) => {
           if (data.length > 0) {
-            document.getElementById("castle-name").textContent =
-              data[0]["label"];
-            document.getElementById("castle-date").textContent =
-              data[0]["built"];
+            document.getElementById("castle-name").textContent = data.name.en;
+            document.getElementById("castle-date").textContent = data.year;
           } else {
             document.getElementById("castle-name").textContent =
               "No castle found";
           }
         });
     </script>
-    <footer>
-      <p>© 2025 Budatin Castle. All rights reserved.</p>
-      <p>Website project by Adam Blazek</p>
-      <p><small>This is a student project and not an official site.</small></p>
-    </footer>
   </body>
 </html>
