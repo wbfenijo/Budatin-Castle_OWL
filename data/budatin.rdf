@@ -1,132 +1,252 @@
-<?xml version="1.0"?>
+<?xml version = "1.0"?>
 <!DOCTYPE rdf:RDF [
-<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+<!ENTITY owl  "http://www.w3.org/2002/07/owl#" >
+<!ENTITY xsd  "http://www.w3.org/2001/XMLSchema#" >
 <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+<!ENTITY rdf  "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
 ]>
+
 <rdf:RDF 
-    xmlns="http://example.org/budatin#"
-    xml:base="http://example.org/budatin"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+    xmlns         = "http://example.org/budatin#"
+    xml:base      = "http://example.org/budatin"
+    xmlns:rdf     = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs    = "http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:owl     = "http://www.w3.org/2002/07/owl#"
+    xmlns:xsd     = "http://www.w3.org/2001/XMLSchema#">
 
-<owl:Ontology rdf:about="http://example.org/budatin"/>
+<owl:Ontology rdf:about = "http://example.org/budatin"/>
 
-<owl:Class rdf:ID="Castle"/>
+<owl:Class rdf:ID = "Castle"/>
+<owl:Class rdf:ID = "Tour"/>
+<owl:Class rdf:ID = "Ticket"/>
+<owl:Class rdf:ID = "Price"/>
+<owl:Class rdf:ID = "TransportOption"/>
+<owl:Class rdf:ID = "Family"/>
+<owl:Class rdf:ID = "TouristService"/>
 
-<owl:Class rdf:ID="BudatinCastle">
-    <rdfs:subClassOf rdf:resource="#Castle"/>
+<owl:Class rdf:ID = "CastleTour">
+  <rdfs:subClassOf rdf:resource = "#Tour"/>
+</owl:Class>
+<owl:Class rdf:ID = "WireworkExhibition">
+  <rdfs:subClassOf rdf:resource = "#Tour"/>
+</owl:Class>
+<owl:Class rdf:ID = "AdultTicket">
+  <rdfs:subClassOf rdf:resource = "#Ticket"/>
+</owl:Class>
+<owl:Class rdf:ID = "ChildTicket">
+  <rdfs:subClassOf rdf:resource = "#Ticket"/>
+</owl:Class>
+<owl:Class rdf:ID = "Car">
+  <rdfs:subClassOf rdf:resource = "#TransportOption"/>
+</owl:Class>
+<owl:Class rdf:ID = "Bus">
+  <rdfs:subClassOf rdf:resource = "#TransportOption"/>
+</owl:Class>
+<owl:Class rdf:ID = "HistoricalFigure">
+  <rdfs:subClassOf rdf:resource = "#Family"/>
 </owl:Class>
 
-<owl:DatatypeProperty rdf:ID="hasName">
-    <rdfs:domain rdf:resource="#Castle"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+<owl:DatatypeProperty rdf:ID = "hasName">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
 </owl:DatatypeProperty>
 
-<owl:DatatypeProperty rdf:ID="hasYearOfBuild">
-    <rdfs:domain rdf:resource="#Castle"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+<owl:DatatypeProperty rdf:ID = "hasYearOfBuild">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;gYear"/>
 </owl:DatatypeProperty>
 
-<owl:DatatypeProperty rdf:ID="hasDescription">
-    <rdfs:domain rdf:resource="#Castle"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+<owl:DatatypeProperty rdf:ID = "hasDescription">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
 </owl:DatatypeProperty>
 
-<owl:DatatypeProperty rdf:ID="hasCurrentState">
-    <rdfs:domain rdf:resource="#Castle"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+<owl:DatatypeProperty rdf:ID = "hasCurrentState">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
 </owl:DatatypeProperty>
 
-<owl:Class rdf:ID="TourType">
-    <owl:unionOf rdf:parseType="Collection">
-        <owl:Class rdf:about="#CastleTour"/>
-        <owl:Class rdf:about="#WireworkExhibition"/>
-    </owl:unionOf>
-</owl:Class>
-
-<owl:Class rdf:ID="CastleTour"/>
-<owl:Class rdf:ID="WireworkExhibition"/>
-
-<owl:Class rdf:ID="TicketType">
-    <owl:unionOf rdf:parseType="Collection">
-        <owl:Class rdf:about="#AdultTicket"/>
-        <owl:Class rdf:about="#ChildTicket"/>
-    </owl:unionOf>
-</owl:Class>
-
-<owl:Class rdf:ID="AdultTicket"/>
-<owl:Class rdf:ID="ChildTicket"/>
-
-<owl:Class rdf:ID="Price"/>
-<owl:DatatypeProperty rdf:ID="amount">
-    <rdfs:domain rdf:resource="#Price"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#decimal"/>
+<owl:DatatypeProperty rdf:ID = "hasLatitude">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;decimal"/>
 </owl:DatatypeProperty>
 
-<owl:ObjectProperty rdf:ID="hasTourType">
-    <rdfs:domain rdf:resource="#Price"/>
-    <rdfs:range rdf:resource="#TourType"/>
+<owl:DatatypeProperty rdf:ID = "hasLongitude">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "&xsd;decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "hasFamilyName">
+  <rdfs:domain rdf:resource = "#Family"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "hasReignStart">
+  <rdfs:domain rdf:resource = "#Family"/>
+  <rdfs:range rdf:resource = "&xsd;gYear"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "hasReignEnd">
+  <rdfs:domain rdf:resource = "#Family"/>
+  <rdfs:range rdf:resource = "&xsd;gYear"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "amount">
+  <rdfs:domain rdf:resource = "#Price"/>
+  <rdfs:range rdf:resource = "&xsd;decimal"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "serviceName">
+  <rdfs:domain rdf:resource = "#TouristService"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "serviceType">
+  <rdfs:domain rdf:resource = "#TouristService"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "number">
+  <rdfs:domain rdf:resource = "#Bus"/>
+  <rdfs:range rdf:resource = "&xsd;integer"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "BusStation">
+  <rdfs:domain rdf:resource = "#Bus"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
+</owl:DatatypeProperty>
+
+<owl:DatatypeProperty rdf:ID = "Parking">
+  <rdfs:domain rdf:resource = "#Car"/>
+  <rdfs:range rdf:resource = "&xsd;string"/>
+</owl:DatatypeProperty>
+
+<owl:ObjectProperty rdf:ID = "hasTourType">
+  <rdfs:domain rdf:resource = "#Price"/>
+  <rdfs:range rdf:resource = "#Tour"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:ID="hasTicketType">
-    <rdfs:domain rdf:resource="#Price"/>
-    <rdfs:range rdf:resource="#TicketType"/>
+<owl:ObjectProperty rdf:ID = "hasTicketType">
+  <rdfs:domain rdf:resource = "#Price"/>
+  <rdfs:range rdf:resource = "#Ticket"/>
 </owl:ObjectProperty>
 
-<owl:Class rdf:ID="TransportOption">
-    <owl:unionOf rdf:parseType="Collection">
-        <owl:Class rdf:about="#Car"/>
-        <owl:Class rdf:about="#Bus"/>
-    </owl:unionOf>
-</owl:Class>
-
-<owl:Class rdf:ID="Car"/>
-<owl:Class rdf:ID="Bus"/>
-
-<owl:ObjectProperty rdf:ID="hasTransport">
-    <rdfs:domain rdf:resource="#BudatinCastle"/>
-    <rdfs:range rdf:resource="#TransportOption"/>
+<owl:ObjectProperty rdf:ID = "hasTransport">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "#TransportOption"/>
 </owl:ObjectProperty>
 
-<owl:ObjectProperty rdf:ID="hasRoute">
-    <rdfs:domain rdf:resource="#BudatinCastle"/>
-    <rdfs:range rdf:resource="#TourType"/>
+<owl:ObjectProperty rdf:ID = "hasRoute">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "#Tour"/>
 </owl:ObjectProperty>
 
-<rdf:Description rdf:about="#BudatinCastle">
-    <hasName xml:lang="en">Budatin Castle</hasName>
-    <hasName xml:lang="sk">Budatínsky hrad</hasName>
-    <hasYearOfBuild rdf:datatype="http://www.w3.org/2001/XMLSchema#gYear">1250</hasYearOfBuild>
-    <hasDescription xml:lang="en">A historical castle located in Žilina, Slovakia.</hasDescription>
-    <hasCurrentState xml:lang="en">Renovated and open to public</hasCurrentState>
-</rdf:Description>
+<owl:ObjectProperty rdf:ID = "wasInhabitedBy">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "#HistoricalFigure"/>
+</owl:ObjectProperty>
 
-<Price rdf:about="#PriceCastleTourAdult">
-    <hasTourType rdf:resource="#CastleTour"/>
-    <hasTicketType rdf:resource="#AdultTicket"/>
-    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">10.00</amount>
-</Price>
+<owl:ObjectProperty rdf:ID = "hasService">
+  <rdfs:domain rdf:resource = "#Castle"/>
+  <rdfs:range rdf:resource = "#TouristService"/>
+</owl:ObjectProperty>
 
-<Price rdf:about="#PriceCastleTourChild">
-    <hasTourType rdf:resource="#CastleTour"/>
-    <hasTicketType rdf:resource="#ChildTicket"/>
-    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">5.00</amount>
-</Price>
+<Castle rdf:about = "#BudatinCastle">
+  <hasName xml:lang = "en">Budatin Castle</hasName>
+  <hasName xml:lang = "sk">Budatínsky hrad</hasName>
+  <hasYearOfBuild rdf:datatype = "&xsd;gYear">1250</hasYearOfBuild>
+  <hasDescription xml:lang = "en">A historical castle located in Žilina, Slovakia.</hasDescription>
+  <hasCurrentState xml:lang = "en">Renovated and open to the public</hasCurrentState>
+  <hasLatitude rdf:datatype = "&xsd;decimal">49.2256</hasLatitude>
+  <hasLongitude rdf:datatype = "&xsd;decimal">18.7402</hasLongitude>
+  <hasTransport rdf:resource = "#CarOption"/>
+  <hasTransport rdf:resource = "#Bus21"/>
+  <hasTransport rdf:resource = "#Bus22"/>
+  <hasTransport rdf:resource = "#Bus27"/>
+  <hasTransport rdf:resource = "#Bus30"/>
+  <hasRoute rdf:resource = "#CastleTourRoute"/>
+  <hasRoute rdf:resource = "#WireworkExhibitionRoute"/>
+  <wasInhabitedBy rdf:resource = "#Caki"/>
+  <wasInhabitedBy rdf:resource = "#Sunog"/>
+  <hasService rdf:resource = "#GiftShop"/>
+  <hasService rdf:resource = "#Cafe"/>
+</Castle>
 
-<Price rdf:about="#PriceWireworkAdult">
-    <hasTourType rdf:resource="#WireworkExhibition"/>
-    <hasTicketType rdf:resource="#AdultTicket"/>
-    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">8.00</amount>
-</Price>
+<Car rdf:about = "#CarOption">
+  <Parking xml:lang ="en" >Free parking near the main gate</Parking>
+</Car>
 
-<Price rdf:about="#PriceWireworkChild">
-    <hasTourType rdf:resource="#WireworkExhibition"/>
-    <hasTicketType rdf:resource="#ChildTicket"/>
-    <amount rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">4.00</amount>
-</Price>
+<Bus rdf:about = "#Bus21">
+  <number>21</number>
+  <BusStation>Namestie hrdinov</BusStation>
+</Bus>
+
+<Bus rdf:about = "#Bus22">
+  <number>22</number>
+  <BusStation>Namestie hrdinov</BusStation>
+</Bus>
+
+<Bus rdf:about = "#Bus27">
+  <number>27</number>
+  <BusStation>Namestie hrdinov</BusStation>
+</Bus>
+
+<Bus rdf:about = "#Bus30">
+  <number>30</number>
+  <BusStation>Namestie hrdinov</BusStation>
+</Bus>
+
+<CastleTour rdf:about = "#CastleTourRoute"/>
+<WireworkExhibition rdf:about = "#WireworkExhibitionRoute"/>
+
+<HistoricalFigure rdf:about = "#Sunog">
+  <hasFamilyName xml:lang = "en">Suňog Family</hasFamilyName>
+  <hasReignStart>1487</hasReignStart>
+  <hasReignEnd>1798</hasReignEnd>
+</HistoricalFigure>
+
+<HistoricalFigure rdf:about = "#Caki">
+  <hasFamilyName xml:lang = "en">Čáki Family</hasFamilyName>
+  <hasReignStart>1798</hasReignStart>
+  <hasReignEnd>1945</hasReignEnd>
+</HistoricalFigure>
+
+<TouristService rdf:about = "#GiftShop">
+  <serviceName>Gift Shop</serviceName>
+  <serviceType>Retail</serviceType>
+</TouristService>
+
+<TouristService rdf:about = "#Cafe">
+  <serviceName>Cafe by the Courtyard</serviceName>
+  <serviceType>Food and Beverage</serviceType>
+</TouristService>
+
+<owl:NamedIndividual rdf:about = "#PriceCastleTourAdult">
+  <rdf:type rdf:resource = "#Price"/>
+  <hasTourType rdf:resource = "#CastleTourRoute"/>
+  <hasTicketType rdf:resource = "#AdultTicket"/>
+  <amount rdf:datatype = "&xsd;decimal">8.00</amount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#PriceCastleTourChild">
+  <rdf:type rdf:resource = "#Price"/>
+  <hasTourType rdf:resource = "#CastleTourRoute"/>
+  <hasTicketType rdf:resource = "#ChildTicket"/>
+  <amount rdf:datatype = "&xsd;decimal">4.00</amount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#PriceWireworkAdult">
+  <rdf:type rdf:resource = "#Price"/>
+  <hasTourType rdf:resource = "#WireworkExhibitionRoute"/>
+  <hasTicketType rdf:resource = "#AdultTicket"/>
+  <amount rdf:datatype = "&xsd;decimal">3.00</amount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#PriceWireworkChild">
+  <rdf:type rdf:resource = "#Price"/>
+  <hasTourType rdf:resource = "#WireworkExhibitionRoute"/>
+  <hasTicketType rdf:resource = "#ChildTicket"/>
+  <amount rdf:datatype = "&xsd;decimal">1.50</amount>
+</owl:NamedIndividual>
 
 </rdf:RDF>

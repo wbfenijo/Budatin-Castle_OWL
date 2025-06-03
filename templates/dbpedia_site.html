@@ -13,15 +13,19 @@
     <a href="">DbPedia</a>
     <a href="{{ url_for('rdf_graph') }}">Graph</a>
   </nav>
-  <h1 id="castle-name">Loading...</h1>
+  <h1 id="castle-name"></h1>
   <p>Built in: <span id="castle-date"></span></p>
 
   <script>
-    fetch("/api/castle")
+    fetch("/api/basic")
       .then(res => res.json())
       .then(data => {
-        document.getElementById("castle-name").textContent = data.label || "Budatín Castle";
-        document.getElementById("castle-date").textContent = data.built || "Unknown";
+        if (data.length > 0) {
+          document.getElementById("castle-name").textContent = data[0]["label"];
+          document.getElementById("castle-date").textContent = data[0]["built"];
+        } else {
+          document.getElementById("castle-name").textContent = "No castle found";
+        }
       });
   </script>
   

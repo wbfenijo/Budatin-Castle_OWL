@@ -13,7 +13,7 @@ def index():
 
 @app.route("/rdf_site")
 def rdf_site():
-    return render_template("rdf_site.html")
+    return render_template("rdf_site.html")  
 
 @app.route("/dbpedia_site")
 def dbpedia_site():
@@ -23,21 +23,28 @@ def dbpedia_site():
 def rdf_graph():
     return render_template("rdf_graph.html")
 
-@app.route('/api/castle')
+@app.route('/api/basic')
 def get_castle_data():
     g = Graph()
     g.parse("data/budatin.rdf")
 
     q = """
     SELECT ?label ?built WHERE {
-      ?castle a <http://dbpedia.org/ontology/Castle> ;
-              <http://www.w3.org/2000/01/rdf-schema#label> ?label ;
-              <http://dbpedia.org/ontology/built> ?built .
-    }
+    <http://example.org/budatin#BudatinCastle> 
+        <http://example.org/budatin#hasName> ?label ;
+        <http://example.org/budatin#hasYearOfBuild> ?built .
+    FILTER (lang(?label) = "en")
+}
     """
-    result = g.query(q)
-    for row in result:
-        return jsonify(label=str(row.label), built=str(row.built))
+    query_result = g.query(q)
+    results = []
+    for row in query_result:
+        result = {}
+        for var, val in zip(query_result.vars, row):
+            result[str(var)] = str(val)
+            
+        results.append(result)
+    return jsonify(results)
 
 
 if __name__ == "__main__":
