@@ -1,78 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Budatín Castle</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    #slideshow {
-      width: 70%;
-      height: 600px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      border-radius: 15px;
-      margin: auto;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <title>Budatín Castle</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <style>
+      #slideshow {
+        width: 70%;
+        height: 600px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-radius: 70px;
+        margin: auto;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+      }
 
-    #slideshow img {
-      width: 100%;
-      height: 100%;
-      display: none;
-      position: absolute;
-    }
+      #slideshow img {
+        width: 100%;
+        height: 100%;
+        display: none;
+        position: absolute;
+      }
 
-    #slideshow img.active {
-      display: block;
-    }
-  </style>
-</head>
-<body>
+      #slideshow img.active {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="">Pictures</a>
+      <a href="{{ url_for('rdf_site') }}">RDF</a>
+      <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
+      <a href="{{ url_for('rdf_graph') }}">Graph</a>
+    </nav>
 
-  <nav>
-    <a href="">Pictures</a>
-    <a href="{{ url_for('rdf_site') }}">RDF</a>
-    <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
-    <a href="{{ url_for('rdf_graph') }}">Graph</a>
-  </nav>
-
-  <div id="slideshow">
-        {% for img in images %}
-            <img src="{{ img }}" class="{% if loop.first %}active{% endif %}" alt="Budatin Castle">
-        {% endfor %}
+    <div id="slideshow">
+      {% for img in images %}
+      <img
+        src="{{ img }}"
+        class="{% if loop.first %}active{% endif %}"
+        alt="Budatin Castle"
+      />
+      {% endfor %}
     </div>
 
     <script>
-      let images = document.querySelectorAll('#slideshow img');
+      let images = document.querySelectorAll("#slideshow img");
       let current = 0;
       let interval = null;
 
       function showNext() {
-          images[current].classList.remove('active');
-          current = (current + 1) % images.length;
-          images[current].classList.add('active');
+        images[current].classList.remove("active");
+        current = (current + 1) % images.length;
+        images[current].classList.add("active");
       }
-      function startInterval(){
+      function startInterval() {
         interval = setInterval(showNext, 5000);
       }
-      
+
       function resetInterval() {
         clearInterval(interval);
         startInterval();
       }
-      
+
       startInterval();
 
-      document.getElementById('slideshow').addEventListener('click', () => {
-      showNext();
-      resetInterval();})
+      document.getElementById("slideshow").addEventListener("click", () => {
+        showNext();
+        resetInterval();
+      });
     </script>
 
-<footer>
-  <p>© 2025 Budatin Castle. All rights reserved.</p>
-  <p>Website project by Adam Blazek</p>
-  <p><small>This is a student project and not an official site.</small></p>
-</footer>
-</body>
+    <footer>
+      <p>© 2025 Budatin Castle. All rights reserved.</p>
+      <p>Website project by Adam Blazek</p>
+      <p><small>This is a student project and not an official site.</small></p>
+    </footer>
+  </body>
 </html>
