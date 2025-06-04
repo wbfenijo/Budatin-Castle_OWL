@@ -7,6 +7,76 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
     />
+    <style>
+      .container {
+        padding: var(--spacing-md);
+        display: flex;
+        justify-content: center;
+      }
+
+      .content {
+        max-width: 800px;
+        width: 100%;
+      }
+
+      .section {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .toggle-btn {
+        background: var(--color-primary);
+        color: white;
+        border: none;
+        padding: var(--spacing-xs) var(--spacing-sm);
+        margin-top: var(--spacing-xs);
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: var(--font-family-body);
+        transition: background 0.2s ease;
+      }
+
+      .toggle-btn:hover {
+        background: var(--color-secondary);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      ul {
+        padding-left: var(--spacing-sm);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: var(--spacing-sm);
+      }
+
+      th,
+      td {
+        border: 1px solid var(--color-accent);
+        padding: var(--spacing-xs);
+        text-align: left;
+      }
+
+      th {
+        background-color: var(--color-surface);
+        color: var(--color-secondary);
+      }
+
+      .meta {
+        color: var(--color-muted);
+        font-size: var(--font-size-small);
+        margin-top: -0.5rem;
+      }
+    </style>
   </head>
   <body>
     <nav>
@@ -15,26 +85,143 @@
       <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
       <a href="{{ url_for('rdf_graph') }}">Graph</a>
     </nav>
-    <main>
-      <h1 id="castle-name">Loading...</h1>
-      <p>Built in: <span id="castle-date"></span></p>
-    </main>
+    <div class="container">
+      <div class="content">
+        <article class="section">
+          <h1 id="castle-name">Loading...</h1>
+          <p class="meta" id="castle-name-sk"></p>
+          <p>
+            <strong>Budatin Castle</strong> was established in the year
+            <span id="year">...</span>. It is currently in
+            <span id="state">...</span> condition, located at coordinates
+            <span id="location">...</span>.
+          </p>
+          <p id="description"></p>
+        </article>
+
+        <div class="section">
+          <div class="section-header">
+            <h2>Getting to the Castle</h2>
+            <button class="toggle-btn" onclick="toggleSection('transport')">
+              View Options
+            </button>
+          </div>
+          <ul id="transport" class="hidden"></ul>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h2>Historical Families</h2>
+            <button class="toggle-btn" onclick="toggleSection('families')">
+              Reveal History
+            </button>
+          </div>
+          <ul id="families" class="hidden"></ul>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h2>Available Services</h2>
+            <button class="toggle-btn" onclick="toggleSection('services')">
+              See List
+            </button>
+          </div>
+          <ul id="services" class="hidden"></ul>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h2>Ticket Pricing</h2>
+            <button class="toggle-btn" onclick="toggleSection('prices')">
+              Show Table
+            </button>
+          </div>
+          <table id="prices" class="hidden">
+            <thead>
+              <tr>
+                <th>Tour Type</th>
+                <th>Ticket</th>
+                <th>Price (€)</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <footer>
       <p>© 2025 Budatin Castle. All rights reserved.</p>
       <p>Website project by Adam Blazek</p>
       <p><small>This is a student project and not an official site.</small></p>
     </footer>
     <script>
+      function toggleSection(id) {
+        const section = document.getElementById(id);
+        section.classList.toggle("hidden");
+      }
+
       fetch("/api/basic")
         .then((res) => res.json())
         .then((data) => {
-          if (data.length > 0) {
-            document.getElementById("castle-name").textContent = data.name.en;
-            document.getElementById("castle-date").textContent = data.year;
-          } else {
+          if (!data || Object.keys(data).length === 0) {
             document.getElementById("castle-name").textContent =
-              "No castle found";
+              "No data available.";
+            return;
           }
+
+          document.getElementById("castle-name").textContent =
+            data.name.en || "Budatin Castle";
+          document.getElementById("castle-name-sk").textContent = `(${
+            data.name.sk || ""
+          })`;
+          document.getElementById("year").textContent = data.year;
+          document.getElementById("description").textContent = data.description;
+          document.getElementById("state").textContent = data.state;
+          document.getElementById(
+            "location"
+          ).textContent = `${data.lat}, ${data.lon}`;
+
+          const transportList = document.getElementById("transport");
+          data.transport.forEach((t) => {
+            const li = document.createElement("li");
+            li.textContent =
+              t.type === "bus"
+                ? `Bus #${t.number}, Station: ${t.station}`
+                : `Parking Available: ${t.parking}`;
+            transportList.appendChild(li);
+          });
+
+          const familiesList = document.getElementById("families");
+          data.families.forEach((f) => {
+            const li = document.createElement("li");
+            li.textContent = `${f.name} (ruled from ${f.start} to ${f.end})`;
+            familiesList.appendChild(li);
+          });
+
+          const servicesList = document.getElementById("services");
+          data.services.forEach((s) => {
+            const li = document.createElement("li");
+            li.textContent = `${s.name} – ${s.type}`;
+            servicesList.appendChild(li);
+          });
+
+          const pricesTable = document
+            .getElementById("prices")
+            .querySelector("tbody");
+          data.prices.forEach((p) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${p.tour.slice(0, -5)}</td>
+            <td>${p.ticket}</td>
+            <td>${p.amount.toFixed(2)}</td>
+          `;
+            pricesTable.appendChild(row);
+          });
+        })
+        .catch((err) => {
+          console.error("API error:", err);
+          document.getElementById("castle-name").textContent =
+            "Error loading castle information.";
         });
     </script>
   </body>

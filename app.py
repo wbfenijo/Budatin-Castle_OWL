@@ -28,7 +28,7 @@ def get_castle_data():
     g = Graph()
     g.parse("data/budatin.rdf")
     data = {}
-    
+
     q1 = """
     PREFIX ex: <http://example.org/budatin#>
     SELECT ?name ?lang ?year ?desc ?state ?lat ?lon
@@ -57,31 +57,34 @@ def get_castle_data():
 
     q2 = """
     PREFIX ex: <http://example.org/budatin#>
-    SELECT ?type ?busNum ?station ?parking
+
+    SELECT ?type ?number ?station ?parking
     WHERE {
-        ex:BudatinCastle ex:hasTransport ?transport .
-        OPTIONAL {
-            ?transport a ex:Bus ;
-                       ex:number ?busNum ;
-                       ex:BusStation ?station .
-            BIND("bus" AS ?type)
-        }
-        OPTIONAL {
-            ?transport a ex:Car ;
-                       ex:Parking ?parking .
-            BIND("car" AS ?type)
-        }
+    ex:BudatinCastle ex:hasTransport ?transport .
+
+    {
+        ?transport a ex:Bus ;
+                ex:number ?number ;
+                ex:BusStation ?station .
+        BIND("bus" AS ?type)
+    }
+    UNION
+    {
+        ?transport a ex:Car ;
+                ex:Parking ?parking .
+        BIND("car" AS ?type)
+    }
     }
     """
     transport = []
     for row in g.query(q2):
-        if row.type == "bus":
+        if str(row.type) == "bus":
             transport.append({
                 "type": "bus",
-                "number": int(row.busNum),
+                "number": int(row.number),
                 "station": str(row.station)
             })
-        elif row.type == "car":
+        elif str(row.type) == "car":
             transport.append({
                 "type": "car",
                 "parking": str(row.parking)
