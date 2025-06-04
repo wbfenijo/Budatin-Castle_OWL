@@ -8,49 +8,44 @@
       href="{{ url_for('static', filename='style.css') }}"
     />
     <style>
-      .container {
-        padding: var(--spacing-md);
+      .layout {
         display: flex;
-        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        width: 200px;
+        margin: var(--spacing-md);
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-accent);
+        border-radius: 8px;
+        padding: var(--spacing-sm);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        height: fit-content;
+        position: sticky;
+        top: var(--spacing-md);
+      }
+
+      .sidebar a {
+        display: block;
+        margin-bottom: var(--spacing-xs);
+        text-decoration: none;
+        color: var(--color-secondary);
+        font-weight: bold;
+      }
+
+      .sidebar a:hover {
+        color: var(--color-primary);
       }
 
       .content {
+        flex: 1;
+        padding: var(--spacing-md);
         max-width: 800px;
-        width: 100%;
       }
 
-      .section {
+      section {
         margin-bottom: var(--spacing-lg);
-      }
-
-      .section-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .toggle-btn {
-        background: var(--color-primary);
-        color: white;
-        border: none;
-        padding: var(--spacing-xs) var(--spacing-sm);
-        margin-top: var(--spacing-xs);
-        border-radius: 4px;
-        cursor: pointer;
-        font-family: var(--font-family-body);
-        transition: background 0.2s ease;
-      }
-
-      .toggle-btn:hover {
-        background: var(--color-secondary);
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      ul {
-        padding-left: var(--spacing-sm);
       }
 
       table {
@@ -67,14 +62,8 @@
       }
 
       th {
-        background-color: var(--color-surface);
-        color: var(--color-secondary);
-      }
-
-      .meta {
-        color: var(--color-muted);
-        font-size: var(--font-size-small);
-        margin-top: -0.5rem;
+        background-color: var(--color-background);
+        color: var(--color-primary);
       }
     </style>
   </head>
@@ -85,69 +74,62 @@
       <a href="{{ url_for('dbpedia_site') }}">DbPedia</a>
       <a href="{{ url_for('rdf_graph') }}">Graph</a>
     </nav>
-    <div class="container">
-      <div class="content">
-        <article class="section">
-          <h1 id="castle-name">Loading...</h1>
-          <p class="meta" id="castle-name-sk"></p>
+    <div class="layout">
+      <nav class="sidebar">
+        <a href="#about">About</a>
+        <a href="#families">Families</a>
+        <a href="#services">Services</a>
+        <a href="#transport">Transport</a>
+        <a href="#tickets">Tickets</a>
+      </nav>
+
+      <main class="content">
+        <section id="about">
+          <h1>Budatin Castle</h1>
           <p>
-            <strong>Budatin Castle</strong> was established in the year
-            <span id="year">...</span>. It is currently in
-            <span id="state">...</span> condition, located at coordinates
-            <span id="location">...</span>.
+            Budatin Castle, located near Žilina, Slovakia, dates back to
+            <span id="castle-year">...</span>. It stands at latitude
+            <span id="castle-lat">...</span> and longitude
+            <span id="castle-lon">...</span>. Today, the castle is
+            <span id="castle-state">...</span> and is a favorite destination for
+            tourists and history enthusiasts.
           </p>
-          <p id="description"></p>
-        </article>
+          <p id="castle-desc">Loading description...</p>
+        </section>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Getting to the Castle</h2>
-            <button class="toggle-btn" onclick="toggleSection('transport')">
-              View Options
-            </button>
-          </div>
-          <ul id="transport" class="hidden"></ul>
-        </div>
+        <section id="families">
+          <h2>Historic Families</h2>
+          <p id="family-text">Loading family information...</p>
+        </section>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Historical Families</h2>
-            <button class="toggle-btn" onclick="toggleSection('families')">
-              Reveal History
-            </button>
-          </div>
-          <ul id="families" class="hidden"></ul>
-        </div>
+        <section id="services">
+          <h2>Visitor Services</h2>
+          <p id="service-text">Loading service details...</p>
+        </section>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Available Services</h2>
-            <button class="toggle-btn" onclick="toggleSection('services')">
-              See List
-            </button>
-          </div>
-          <ul id="services" class="hidden"></ul>
-        </div>
+        <section id="transport">
+          <h2>Getting There</h2>
+          <p id="transport-text">Loading transportation options...</p>
+        </section>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Ticket Pricing</h2>
-            <button class="toggle-btn" onclick="toggleSection('prices')">
-              Show Table
-            </button>
-          </div>
-          <table id="prices" class="hidden">
+        <section id="tickets">
+          <h2>Ticket Information</h2>
+          <p>
+            Here are the current ticket types and prices for visitors to Budatin
+            Castle:
+          </p>
+          <table>
             <thead>
               <tr>
                 <th>Tour Type</th>
-                <th>Ticket</th>
-                <th>Price (€)</th>
+                <th>Ticket Type</th>
+                <th>Ticket Price</th>
               </tr>
             </thead>
-            <tbody></tbody>
+            <tbody id="ticket-table-body"></tbody>
           </table>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
     <footer>
       <p>© 2025 Budatin Castle. All rights reserved.</p>
@@ -155,73 +137,80 @@
       <p><small>This is a student project and not an official site.</small></p>
     </footer>
     <script>
-      function toggleSection(id) {
-        const section = document.getElementById(id);
-        section.classList.toggle("hidden");
-      }
-
       fetch("/api/basic")
         .then((res) => res.json())
         .then((data) => {
-          if (!data || Object.keys(data).length === 0) {
-            document.getElementById("castle-name").textContent =
-              "No data available.";
-            return;
+          document.getElementById("castle-year").textContent = data.year;
+          document.getElementById("castle-lat").textContent = data.latitude;
+          document.getElementById("castle-lon").textContent = data.longitude;
+          document.getElementById("castle-state").textContent = data.state;
+          document.getElementById("castle-desc").textContent = data.description;
+
+          let familyText = "";
+          if (data.families?.length) {
+            familyText =
+              "Throughout history, Budatin Castle was inhabited by several notable families. ";
+            familyText += data.families
+              .map((f) => {
+                return `The ${f.name} family lived here between ${f.start} and ${f.end}.`;
+              })
+              .join(" ");
+          } else {
+            familyText = "No family data available.";
+          }
+          document.getElementById("family-text").textContent = familyText;
+
+          let servicesText = "";
+          if (data.services?.length) {
+            servicesText =
+              "Visitors can enjoy several services at the castle. ";
+            servicesText += data.services
+              .map((s) => {
+                return `The ${s.name.toLowerCase()} offers ${s.type.toLowerCase()} services.`;
+              })
+              .join(" ");
+          } else {
+            servicesText = "There are currently no listed services.";
+          }
+          document.getElementById("service-text").textContent = servicesText;
+
+          let transportText = "";
+          const buses = data.transport?.filter((t) => t.type === "bus") || [];
+          const cars = data.transport?.filter((t) => t.type === "car") || [];
+
+          if (buses.length) {
+            transportText += "Public transportation includes ";
+            transportText +=
+              buses
+                .map((b) => `bus number ${b.number} stopping at ${b.station}`)
+                .join(", ") + ". ";
           }
 
-          document.getElementById("castle-name").textContent =
-            data.name.en || "Budatin Castle";
-          document.getElementById("castle-name-sk").textContent = `(${
-            data.name.sk || ""
-          })`;
-          document.getElementById("year").textContent = data.year;
-          document.getElementById("description").textContent = data.description;
-          document.getElementById("state").textContent = data.state;
-          document.getElementById(
-            "location"
-          ).textContent = `${data.lat}, ${data.lon}`;
+          if (cars.length) {
+            transportText += ` ${cars[0].parking}`;
+          }
 
-          const transportList = document.getElementById("transport");
-          data.transport.forEach((t) => {
-            const li = document.createElement("li");
-            li.textContent =
-              t.type === "bus"
-                ? `Bus #${t.number}, Station: ${t.station}`
-                : `Parking Available: ${t.parking}`;
-            transportList.appendChild(li);
-          });
+          if (!transportText) {
+            transportText = "No transportation details available.";
+          }
 
-          const familiesList = document.getElementById("families");
-          data.families.forEach((f) => {
-            const li = document.createElement("li");
-            li.textContent = `${f.name} (ruled from ${f.start} to ${f.end})`;
-            familiesList.appendChild(li);
-          });
+          document.getElementById("transport-text").textContent = transportText;
 
-          const servicesList = document.getElementById("services");
-          data.services.forEach((s) => {
-            const li = document.createElement("li");
-            li.textContent = `${s.name} – ${s.type}`;
-            servicesList.appendChild(li);
-          });
-
-          const pricesTable = document
-            .getElementById("prices")
-            .querySelector("tbody");
-          data.prices.forEach((p) => {
+          const tickets = data.prices;
+          const ticketBody = document.getElementById("ticket-table-body");
+          tickets.forEach((ticket) => {
             const row = document.createElement("tr");
-            row.innerHTML = `
-            <td>${p.tour.slice(0, -5)}</td>
-            <td>${p.ticket}</td>
-            <td>${p.amount.toFixed(2)}</td>
-          `;
-            pricesTable.appendChild(row);
+            row.innerHTML = `<td>${ticket.tour.slice(
+              0,
+              -5
+            )}</td><td>${ticket.ticket.slice(0, -6)}</td><td>${
+              ticket.amount
+            } € </td>`;
+            ticketBody.appendChild(row);
           });
         })
         .catch((err) => {
-          console.error("API error:", err);
-          document.getElementById("castle-name").textContent =
-            "Error loading castle information.";
+          console.error("Failed to load RDF data:", err);
         });
     </script>
   </body>

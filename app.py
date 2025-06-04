@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, render_template, url_for 
-from rdflib import Graph, Namespace, URIRef
+from rdflib import Graph
 import os
 
 app = Flask(__name__, static_url_path='/static')

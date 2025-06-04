@@ -23,11 +23,18 @@
 <owl:Class rdf:ID = "TransportOption"/>
 <owl:Class rdf:ID = "Family"/>
 <owl:Class rdf:ID = "TouristService"/>
+<owl:Class rdf:ID = "Location"/>
 
+<owl:Class rdf:ID = "City">
+  <rdfs:subClassOf rdf:resource = "#Location"/>
+</owl:Class>
+<owl:Class rdf:ID = "State">
+  <rdfs:subClassOf rdf:resource = "#Location"/>
+</owl:Class>
 <owl:Class rdf:ID = "CastleTour">
   <rdfs:subClassOf rdf:resource = "#Tour"/>
 </owl:Class>
-<owl:Class rdf:ID = "WireworkExhibition">
+<owl:Class rdf:ID = "WirecraftExhibition">
   <rdfs:subClassOf rdf:resource = "#Tour"/>
 </owl:Class>
 <owl:Class rdf:ID = "AdultTicket">
@@ -121,6 +128,11 @@
   <rdfs:range rdf:resource = "&xsd;string"/>
 </owl:DatatypeProperty>
 
+<owl:ObjectProperty rdf:ID = "locatedIn">
+  <rdfs:domain rdf:resource = "#Location"/>
+  <rdfs:range rdf:resource = "#Location"/>
+</owl:ObjectProperty>
+
 <owl:ObjectProperty rdf:ID = "hasTourType">
   <rdfs:domain rdf:resource = "#Price"/>
   <rdfs:range rdf:resource = "#Tour"/>
@@ -154,6 +166,8 @@
 <Castle rdf:about = "#BudatinCastle">
   <hasName xml:lang = "en">Budatin Castle</hasName>
   <hasName xml:lang = "sk">Budatínsky hrad</hasName>
+  <locatedIn rdf:resource = "#Zilina"/>
+  <locatedIn rdf:resource="#Slovakia"/>
   <hasYearOfBuild rdf:datatype = "&xsd;gYear">1250</hasYearOfBuild>
   <hasDescription xml:lang = "en">A historical castle located in Žilina, Slovakia.</hasDescription>
   <hasCurrentState xml:lang = "en">Renovated and open to the public</hasCurrentState>
@@ -165,7 +179,7 @@
   <hasTransport rdf:resource = "#Bus27"/>
   <hasTransport rdf:resource = "#Bus30"/>
   <hasRoute rdf:resource = "#CastleTourRoute"/>
-  <hasRoute rdf:resource = "#WireworkExhibitionRoute"/>
+  <hasRoute rdf:resource = "#WirecraftExhibitionRoute"/>
   <wasInhabitedBy rdf:resource = "#Caki"/>
   <wasInhabitedBy rdf:resource = "#Sunog"/>
   <hasService rdf:resource = "#GiftShop"/>
@@ -173,7 +187,7 @@
 </Castle>
 
 <Car rdf:about = "#CarOption">
-  <Parking xml:lang ="en" >Free parking near the main gate</Parking>
+  <Parking xml:lang ="en" >Parking is possible at the main gate. It is free for all visitors.</Parking>
 </Car>
 
 <Bus rdf:about = "#Bus21">
@@ -197,7 +211,7 @@
 </Bus>
 
 <CastleTour rdf:about = "#CastleTourRoute"/>
-<WireworkExhibition rdf:about = "#WireworkExhibitionRoute"/>
+<WirecraftExhibition rdf:about = "#WirecraftExhibitionRoute"/>
 
 <HistoricalFigure rdf:about = "#Sunog">
   <hasFamilyName xml:lang = "en">Suňog Family</hasFamilyName>
@@ -235,16 +249,32 @@
   <amount rdf:datatype = "&xsd;decimal">4.00</amount>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about = "#PriceWireworkAdult">
+<owl:NamedIndividual rdf:about = "#PriceWirecraftAdult">
   <rdf:type rdf:resource = "#Price"/>
-  <hasTourType rdf:resource = "#WireworkExhibitionRoute"/>
+  <hasTourType rdf:resource = "#WirecraftExhibitionRoute"/>
   <hasTicketType rdf:resource = "#AdultTicket"/>
   <amount rdf:datatype = "&xsd;decimal">3.00</amount>
 </owl:NamedIndividual>
 
-<owl:NamedIndividual rdf:about = "#PriceWireworkChild">
+<owl:NamedIndividual rdf:about = "#PriceWirecraftChild">
   <rdf:type rdf:resource = "#Price"/>
-  <hasTourType rdf:resource = "#WireworkExhibitionRoute"/>
+  <hasTourType rdf:resource = "#WirecraftExhibitionRoute"/>
+  <hasTicketType rdf:resource = "#ChildTicket"/>
+  <amount rdf:datatype = "&xsd;decimal">1.50</amount>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#Zilina">
+  <rdf:type rdf:resource = "#City"/>
+  <locatedIn rdf:resource = "#Slovakia"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#Slovakia">
+  <rdf:type rdf:resource = "#State"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about = "#PriceWirecraftChild">
+  <rdf:type rdf:resource = "#Price"/>
+  <hasTourType rdf:resource = "#WirecraftExhibitionRoute"/>
   <hasTicketType rdf:resource = "#ChildTicket"/>
   <amount rdf:datatype = "&xsd;decimal">1.50</amount>
 </owl:NamedIndividual>
